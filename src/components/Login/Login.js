@@ -28,18 +28,26 @@ const Login = () => {
           return false;
         }
     }
-}
+  }
+
+  function validatePassword(password) { 
+    if(password === 'danoneday' || password === 'DANONEDAY'){
+      return true
+    } else {
+      return false
+    }
+  }
 
   const handlesubmit = (e) => {
     e.preventDefault();
     checkPassword();
     console.log("login: ", {...formData});
     console.log("formData.email: ", formData.email);
-    if (validateEmail(formData.email)){
+    if (validateEmail(formData.email) && validatePassword(formData.password)){
       localStorage.setItem('isLoggedIn', true);
       navigate('/event');
     } else {
-      alert("datos incorrectos")
+      alert("Datos incorrectos")
     }
     
   }
