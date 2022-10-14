@@ -1,6 +1,6 @@
 import React from 'react'
 import './NavBar.scss'
-import logo from '../../assets/img/danonelogo.png'
+import logo from '../../assets/img/danonelogo.webp'
 
 const NavBar = () => {
   return (
