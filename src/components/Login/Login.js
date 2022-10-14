@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import './Login.scss'
 
@@ -9,6 +9,12 @@ const Login = () => {
   })
   const [pass, setPass] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === "true"){
+      navigate('/event');
+    }
+  }, [])
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name] : e.target.value})
