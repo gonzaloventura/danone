@@ -2,16 +2,22 @@ import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import Vimeo from '@u-wave/react-vimeo';
 import './Event.scss'
+import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+import db from "../../helpers/FirebaseConfig";
+import moment from 'moment/moment';
 
 const Event = () => {
   const navigate = useNavigate();
+  const localId = localStorage.getItem('id')
+
   const cerrarSesion = () => {
-    localStorage.setItem('isLoggedIn', false);
+    updateDoc(doc(db, 'usuarios', localId), {isLogged: false, logout: moment().format('LLL')})
+    localStorage.removeItem('id');
     navigate('/');
   }
   return (
     <>
-    { localStorage.getItem('isLoggedIn') ? 
+    { localStorage.getItem('id') !== null ? 
     <div className='live'>
       <h1>Evento en vivo</h1>
       <Vimeo

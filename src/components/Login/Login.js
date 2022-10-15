@@ -1,19 +1,43 @@
 import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import './Login.scss'
+import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+import db from "../../helpers/FirebaseConfig";
+import moment from 'moment/moment';
 
 const Login = () => {
+  const [success, setSuccess] = useState()
   const [formData, setFormData] = useState({
+    name:'',
     email:'',
-    password:''
+    password:'',
+    isLogged: false
   })
+  const [data, setData] = useState([]);
   const [pass, setPass] = useState(false);
   const navigate = useNavigate();
 
+  const getData = async () => {
+    const dataCollection = collection(db, 'usuarios')
+    const dataSnapshot = await getDocs(dataCollection)
+    const dataList = dataSnapshot.docs.map( (doc) => {
+        let usuario = doc.data()
+        usuario.id = doc.id
+        return usuario
+    })
+    return dataList;
+  }
+
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === "true"){
+    if (localStorage.getItem('id') != null){
       navigate('/event');
+    } else {
+      getData()
+      .then((res) => {
+      setData(res);
+    });
     }
+    
   }, [])
 
   const handleChange = (e) => {
@@ -22,6 +46,14 @@ const Login = () => {
 
   function checkPassword() {
     formData.password === 'danoneday' ? setPass(true) : setPass(false)
+  }
+
+  function validateName(name) { 
+    if(name !== ''){
+      return true
+    } else {
+      return false
+    }
   }
 
   function validateEmail(email) { 
@@ -44,14 +76,47 @@ const Login = () => {
     }
   }
 
+  function checkIfIsLogged(email) {
+    const user = data.find(element => element.email == email);
+    if (user != null){
+      return(user.isLogged);
+    } else {
+      return false
+    }
+  }
+
+  function checkIfIsExist(email) {
+    const user = data.find(element => element.email == email);
+    if (user != null){
+      return user.id
+    } else {
+      return false
+    }
+  }
+
+  const pushData = async (newOrder) => {
+    const collectionOrder = collection(db, 'usuarios')
+    const orderDoc = await addDoc(collectionOrder, newOrder)
+    localStorage.setItem("id", orderDoc.id)
+  }
+  
+
   const handlesubmit = (e) => {
     e.preventDefault();
     checkPassword();
-    console.log("login: ", {...formData});
-    console.log("formData.email: ", formData.email);
-    if (validateEmail(formData.email) && validatePassword(formData.password)){
-      localStorage.setItem('isLoggedIn', true);
-      navigate('/event');
+    if (validateName(formData.name) && validateEmail(formData.email) && validatePassword(formData.password)){
+      if(checkIfIsLogged(formData.email)){
+        alert("El usuario se encuentra conectado, por favor cierre sesión en el otro dispositivo");
+      } else if(checkIfIsExist(formData.email) != false) {
+        const id = checkIfIsExist(formData.email);
+        localStorage.setItem("id", id)
+        updateDoc(doc(db, 'usuarios', id), {isLogged: true, login: moment().format('LLL')})
+        setTimeout(()=>{navigate('/event')}, 800)
+      } else {
+        formData.isLogged = true;
+        pushData({...formData, login: moment().format('LLL')});
+        setTimeout(()=>{navigate('/event')}, 800)
+      }
     } else {
       alert("Datos incorrectos")
     }
@@ -60,6 +125,7 @@ const Login = () => {
   return (
     <div className='login__card'>
         <form onSubmit={handlesubmit}>
+            <input name='name' onChange={handleChange} type='text' placeholder='Nombre y Apellido' /> 
             <input name='email' onChange={handleChange} type='text' placeholder='Email' /> 
             <input name='password' onChange={handleChange} type='password' placeholder='Contraseña' /> 
             <button type='submit'>Ingresar</button>
