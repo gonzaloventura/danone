@@ -3,7 +3,7 @@ import NavBar from './components/NavBar/NavBar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Event from './pages/Event/Event';
-import Login from './pages/Login/Login';
+import Monitor from './pages/Monitor/Monitor';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/event" element={<Event />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/Monitor" element={<Monitor />} />
             </Routes>
     </BrowserRouter>
     </>

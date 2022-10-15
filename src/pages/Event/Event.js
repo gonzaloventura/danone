@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import Vimeo from '@u-wave/react-vimeo';
 import './Event.scss'
-import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+import {updateDoc, doc } from "firebase/firestore";
 import db from "../../helpers/FirebaseConfig";
 import moment from 'moment/moment';
 

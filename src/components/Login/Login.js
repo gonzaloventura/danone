@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import './Login.scss'
-import { collection, query, where, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import db from "../../helpers/FirebaseConfig";
 import moment from 'moment/moment';
 
@@ -37,7 +37,6 @@ const Login = () => {
       setData(res);
     });
     }
-    
   }, [])
 
   const handleChange = (e) => {
@@ -120,8 +119,8 @@ const Login = () => {
     } else {
       alert("Datos incorrectos")
     }
-    
   }
+  
   return (
     <div className='login__card'>
         <form onSubmit={handlesubmit}>
