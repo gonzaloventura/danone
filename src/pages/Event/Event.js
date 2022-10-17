@@ -21,9 +21,12 @@ const Event = () => {
     <div className='live'>
       <h1>Evento en vivo</h1>
       <Vimeo
-        video="348721737"
+        video="383041858"
         width={350}
-        responsive={false}
+        showTitle={false}
+        speed={false}
+        pip={false}
+        showAuthor={false}
       />
       <button className='logout' onClick={cerrarSesion}>Cerrar sesión</button>
     </div>
