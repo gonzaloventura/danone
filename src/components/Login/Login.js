@@ -4,6 +4,7 @@ import './Login.scss'
 import { collection, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 import db from "../../helpers/FirebaseConfig";
 import moment from 'moment/moment';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [success, setSuccess] = useState()
@@ -105,7 +106,11 @@ const Login = () => {
     checkPassword();
     if (validateName(formData.name) && validateEmail(formData.email) && validatePassword(formData.password)){
       if(checkIfIsLogged(formData.email)){
-        alert("El usuario se encuentra conectado, por favor cierre sesión en el otro dispositivo");
+        Swal.fire(
+          'Ups!',
+          'El usuario se encuentra conectado, por favor cierre sesión en el otro dispositivo',
+          'warning'
+        )
       } else if(checkIfIsExist(formData.email) != false) {
         const id = checkIfIsExist(formData.email);
         localStorage.setItem("id", id)
@@ -117,7 +122,11 @@ const Login = () => {
         setTimeout(()=>{navigate('/event')}, 800)
       }
     } else {
-      alert("Datos incorrectos")
+      Swal.fire(
+        'Datos incorrectos',
+        'Por favor, intente nuevamente',
+        'error'
+      )
     }
   }
   
