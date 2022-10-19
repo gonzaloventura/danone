@@ -25,7 +25,7 @@ const Event = () => {
     </div>
     :
     <div className='live'>
-      <h1>Para visualizar el vivo debes estar conectado</h1>
+      <h1>Para visualizar el vivo, deberás iniciar sesión</h1>
       <button className='login'><Link to={'/'}>Iniciar sesión</Link></button>
     </div>
     }
