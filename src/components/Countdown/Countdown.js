@@ -13,7 +13,7 @@ const Countdown = () => {
   let interval = useRef();
 
   const startTimer = () => {
-    const countdownDate = new Date('Oct 25 2022 09:45:00 GMT-3').getTime();
+    const countdownDate = new Date('Oct 24 2022 09:45:00 GMT-3').getTime();
 
     interval = setInterval(() => {
       const now = new Date().getTime();
@@ -48,7 +48,7 @@ const Countdown = () => {
     <>
     {distance <= 0 ? 
     <Vimeo
-    video="https://vimeo.com/event/2539813/c895767c77"
+    video="https://vimeo.com/event/2544143"
     width={350}
     showTitle={false}
     speed={false}
