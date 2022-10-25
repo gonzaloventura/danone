@@ -18,26 +18,27 @@ const Login = () => {
   const [pass, setPass] = useState(false);
   const navigate = useNavigate();
 
-  const getData = async () => {
-    const dataCollection = collection(db, 'usuarios')
-    const dataSnapshot = await getDocs(dataCollection)
-    const dataList = dataSnapshot.docs.map( (doc) => {
-        let usuario = doc.data()
-        usuario.id = doc.id
-        return usuario
-    })
-    return dataList;
-  }
+  // const getData = async () => {
+  //   const dataCollection = collection(db, 'usuarios')
+  //   const dataSnapshot = await getDocs(dataCollection)
+  //   const dataList = dataSnapshot.docs.map( (doc) => {
+  //       let usuario = doc.data()
+  //       usuario.id = doc.id
+  //       return usuario
+  //   })
+  //   return dataList;
+  // }
 
   useEffect(() => {
     if (localStorage.getItem('id') != null){
       navigate('/event');
-    } else {
-      getData()
-      .then((res) => {
-      setData(res);
-    });
     }
+    // } else {
+    //   getData()
+    //   .then((res) => {
+    //   setData(res);
+    // });
+    // }
   }, [])
 
   const handleChange = (e) => {
@@ -105,22 +106,8 @@ const Login = () => {
     e.preventDefault();
     checkPassword();
     if (validateName(formData.name) && validateEmail(formData.email) && validatePassword(formData.password)){
-      if(checkIfIsLogged(formData.email)){
-        Swal.fire(
-          'Ups!',
-          'El usuario se encuentra conectado, por favor cierre sesión en el otro dispositivo',
-          'warning'
-        )
-      } else if(checkIfIsExist(formData.email) != false) {
-        const id = checkIfIsExist(formData.email);
-        localStorage.setItem("id", id)
-        updateDoc(doc(db, 'usuarios', id), {isLogged: true, login: moment().format('LLL')})
-        setTimeout(()=>{navigate('/event')}, 800)
-      } else {
-        formData.isLogged = true;
-        pushData({...formData, login: moment().format('LLL')});
-        setTimeout(()=>{navigate('/event')}, 800)
-      }
+      localStorage.setItem("id", formData.email)
+      setTimeout(()=>{navigate('/event')}, 800)
     } else {
       Swal.fire(
         'Datos incorrectos',

@@ -12,7 +12,7 @@ const Event = () => {
   const localId = localStorage.getItem('id')
 
   const cerrarSesion = () => {
-    updateDoc(doc(db, 'usuarios', localId), {isLogged: false, logout: moment().format('LLL')})
+    // updateDoc(doc(db, 'usuarios', localId), {isLogged: false, logout: moment().format('LLL')})
     localStorage.removeItem('id');
     navigate('/');
   }
