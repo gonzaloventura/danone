@@ -48,7 +48,7 @@ const Countdown = () => {
     <>
     {distance <= 0 ? 
     <Vimeo
-    video="https://vimeo.com/event/2539813/c895767c77"
+    video="https://vimeo.com/763110726/cc8a9156cb"
     width={350}
     showTitle={false}
     speed={false}
